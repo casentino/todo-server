@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts"
+		"start": "nodemon --ignore db/ --watch '*.ts' --exec node --experimental-modules --es-module-specifier-resolution=node --loader ts-node/esm index.ts"
 	},
 	"keywords": [],
 	"author": "",
