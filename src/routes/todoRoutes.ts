@@ -2,7 +2,7 @@ import express from 'express';
 
 const router = express.Router();
 
-router.get('/');
+router.get('/', (res, req) => {});
 router.post('/');
 router.get('/:id');
 router.put('/:id');
