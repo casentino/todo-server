@@ -7,7 +7,7 @@ export function findUserTodos(createdById: string) {
 	return db.data.todos.filter((todo) => todo.createdBy === createdById);
 }
 
-export function findTodo(id: number) {
+export function findTodo(id: string) {
 	if (!db.data) return;
 	return db.data.todos.find((todo) => todo.id === id);
 }
@@ -20,7 +20,7 @@ export async function createTodo(todo: Todo) {
 	return todo;
 }
 
-export async function updateTodo(todoId: number, todo: Todo) {
+export async function updateTodo(todoId: string, todo: Todo) {
 	if (!db.data) return;
 	const findedTodo = db.data.todos.find((todo) => todo.id === todoId);
 	if (!findedTodo) return;
@@ -30,7 +30,7 @@ export async function updateTodo(todoId: number, todo: Todo) {
 	return findedTodo;
 }
 
-export async function deleteTodo(todoId: number) {
+export async function deleteTodo(todoId: string) {
 	if (!db.data) return;
 	let deletedTodo: Todo | undefined;
 	const todos = db.data.todos.filter((todo) => {
