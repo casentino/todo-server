@@ -43,7 +43,6 @@ async function initDB() {
 
 export async function connectDatabase() {
 	const filePathName = await initDB();
-	const low = new Low<DB>(new JSONFile(filePathName));
-	db = low;
+	db = new Low<DB>(new JSONFile(filePathName));
 	await db.read();
 }
