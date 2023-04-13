@@ -1,8 +1,8 @@
 import type { Response, Request, NextFunction } from 'express';
 import * as todoService from '../service/todoService';
 import Todo from '../model/Todo';
-import { generateId } from '../utils/generateId';
-
+import { generateId } from '../utils/genUnique';
+import { RequestPayload } from '../types';
 
 export function getTodos(req: Request, res: Response) {
 	const { authorization } = req.headers;
@@ -11,17 +11,7 @@ export function getTodos(req: Request, res: Response) {
 	return res.status(200).send({ todos });
 }
 
-export async function createTodo(
-	req: Request<
-		any,
-		any,
-		{
-			title: string;
-			content: string;
-		}
-	>,
-	res: Response
-) {
+export async function createTodo(req: RequestPayload<{ title: string; content: string }>, res: Response) {
 	const { authorization } = req.headers;
 	const { title, content } = req.body;
 	if (!title) {
@@ -36,7 +26,6 @@ export async function createTodo(
 	});
 	return res.status(200).send({ todo });
 }
-
 
 export function getTodoById(req: Request, res: Response) {
 	const { id } = req.query;
