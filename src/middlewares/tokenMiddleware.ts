@@ -1,43 +1,39 @@
 import type { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import { SERVER_ENC_KEY } from '../config';
 import { isUser } from '../utils/validator';
+import { validJWT, validToken } from '../utils/authUtils';
 
-export function validateToken(req: Request, res: Response, next: NextFunction) {
+export async function validateToken(req: Request, res: Response, next: NextFunction) {
 	const { authorization } = req.headers;
 	if (!authorization) {
 		return res.sendStatus(401);
 	}
-	const token = authorization.split(' ')[1];
-	jwt.verify(token, SERVER_ENC_KEY, (err, user) => {
-		if (err) {
-			return res.status(403).send({
-				statusCode: 403,
-				message: 'InValidation Token',
-			});
+	try {
+		const isValid = await validJWT(authorization);
+		if (isValid) {
+			next();
 		}
-
-		next();
-	});
+	} catch (err) {
+		if (err instanceof Error) {
+			return res.status(403).send({ message: err.message });
+		}
+	}
 }
 
-export function extractUserInfo(req: Request, res: Response, next: NextFunction) {
+export async function extractUserInfo(req: Request, res: Response, next: NextFunction) {
 	const { authorization } = req.headers;
 	if (!authorization) {
 		return res.sendStatus(401);
 	}
-	const token = authorization.split(' ')[1];
-	jwt.verify(token, SERVER_ENC_KEY, (err, user) => {
-		if (err) {
-			return res.status(403).send({
-				statusCode: 403,
-				message: 'InValidation Token',
-			});
-		}
 
-		if (isUser(user)) {
-			req.parsedUsr = user;
+	try {
+		const decode = await validToken(authorization);
+		if (isUser(decode)) {
+			req.parsedUsr = decode;
 		}
 		next();
-	});
+	} catch (err) {
+		if (err instanceof Error) {
+			return res.status(403).send({ message: err.message });
+		}
+	}
 }
