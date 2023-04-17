@@ -7,7 +7,7 @@ export function isEmail(email: string) {
 	const isValid = regex.test(email);
 	return {
 		isValid,
-		...(isValid ? { message: '유효하지 않은 이메일 형식입니다.' } : {}),
+		...(!isValid ? { message: '유효하지 않은 이메일 형식입니다.' } : {}),
 	};
 }
 export function isPasswordValid(password: string) {
@@ -22,7 +22,7 @@ export function isPasswordValid(password: string) {
 	}
 	return {
 		isValid,
-		...(isValid ? { message } : {}),
+		...(!isValid ? { message } : {}),
 	};
 }
 

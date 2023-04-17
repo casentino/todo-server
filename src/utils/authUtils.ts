@@ -10,7 +10,9 @@ export function splitBearer(token: string) {
 }
 
 export function genJWTToken(payload: Record<string, any>) {
-	return jwt.sign(payload, SERVER_ENC_KEY);
+	return jwt.sign(payload, SERVER_ENC_KEY, {
+		expiresIn: '30s',
+	});
 }
 export function validJWT(authorization: string) {
 	return new Promise<boolean>((resolve, reject) => {
