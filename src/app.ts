@@ -17,12 +17,7 @@ app.use((req, res, next) => {
 	res.status(404);
 	next(new Error(JSON.stringify({ status: 404, message: 'Not Found.' })));
 });
-const errorHandler: ErrorRequestHandler = (
-	err: Error & { status: number },
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
+const errorHandler: ErrorRequestHandler = (err: Error & { status: number }, req: Request, res: Response) => {
 	const error = JSON.parse(err.message);
 	return res.status(error.status).send({ message: error.message });
 };
