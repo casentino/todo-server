@@ -36,8 +36,8 @@ export async function createTodo(req: RequestPayload<{ title: string; content: s
 	return res.status(200).send({ todo });
 }
 
-export function getTodoById(req: Request, res: Response) {
-	const { id } = req.query;
+export function getTodoById(req: Request<{ id: string }>, res: Response) {
+	const { id } = req.params;
 	if (!req.parsedUsr || !req.parsedUsr._id) {
 		return res.status(402).send({
 			message: 'UnAuthorization.',
@@ -61,8 +61,8 @@ export function getTodoById(req: Request, res: Response) {
 	});
 }
 
-export async function updateTodo(req: Request<any, any, { todo: Todo }>, res: Response) {
-	const { id } = req.query;
+export async function updateTodo(req: RequestPayload<{ todo: Todo }, { id: string }>, res: Response) {
+	const { id } = req.params;
 	const { todo } = req.body;
 	if (!req.parsedUsr || !req.parsedUsr._id || req.parsedUsr._id !== todo.createdBy) {
 		return res.status(402).send({
@@ -86,8 +86,8 @@ export async function updateTodo(req: Request<any, any, { todo: Todo }>, res: Re
 	});
 }
 
-export async function deleteTodo(req: Request, res: Response) {
-	const { id } = req.query;
+export async function deleteTodo(req: Request<{ id: string }>, res: Response) {
+	const { id } = req.params;
 	if (!req.parsedUsr || !req.parsedUsr._id) {
 		return res.status(402).send({
 			message: 'UnAuthorization.',
