@@ -1,6 +1,6 @@
 import cors from 'cors';
 import express, { Request, Response, ErrorRequestHandler, NextFunction } from 'express';
-import userRouter from './routes/authRoutes';
+import authRouter from './routes/authRoutes';
 import todoRouter from './routes/todoRoutes';
 import morgan from 'morgan';
 
@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(cors());
-app.use('/user', userRouter);
+app.use('/auth', authRouter);
 app.use('/todo', todoRouter);
 
 app.use((req, res, next) => {
