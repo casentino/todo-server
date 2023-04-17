@@ -19,7 +19,7 @@ let user: User;
 describe('todo test', () => {
 	beforeAll(async () => {
 		server = await createServer();
-		const res = await supertest(server).post('/auth/register').send({
+		await supertest(server).post('/auth/register').send({
 			email: 'abc@gmail.com',
 			password: 'qwerasdf123!',
 			name: 'abs',

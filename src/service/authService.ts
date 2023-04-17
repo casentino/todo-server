@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { db } from '../db/DBConnector';
 import User, { SignUpRequest } from '../model/User';
 import { generateId } from '../utils/genUnique';

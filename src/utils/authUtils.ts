@@ -21,7 +21,7 @@ export function validJWT(authorization: string) {
 			reject(new Error('InValidation Token'));
 			return;
 		}
-		jwt.verify(token, SERVER_ENC_KEY, (err, decode) => {
+		jwt.verify(token, SERVER_ENC_KEY, (err) => {
 			if (err) {
 				reject(err);
 			}

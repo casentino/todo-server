@@ -1,4 +1,4 @@
-import type { Response, Request, NextFunction } from 'express';
+import type { Response, Request } from 'express';
 import * as todoService from '../service/todoService';
 import Todo from '../model/Todo';
 import { generateId } from '../utils/genUnique';
