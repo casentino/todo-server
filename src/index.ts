@@ -1,12 +1,12 @@
-import './config/env';
-import app from './app';
-import { connectDatabase } from './db/DBConnector';
+import { createServer } from './server';
 
-const port = process.env.PORT || 8080;
+async function main() {
+	const server = await createServer();
+	const port = process.env.PORT || 8080;
+	server.listen(port, () => {
+		console.log('Now listening');
+		console.log(`http://localhost:${port}`);
+	});
+}
 
-app.listen(port, async () => {
-	console.log('Now listening');
-	console.log(`http://localhost:${port}`);
-	await connectDatabase();
-	console.log('Connected DB');
-});
+main();

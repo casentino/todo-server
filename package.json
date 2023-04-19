@@ -1,12 +1,13 @@
 {
 	"name": "todo-server",
 	"version": "1.0.0",
-	"type": "module",
 	"description": "",
 	"main": "index.js",
+	"type": "module",
 	"scripts": {
-		"start": "nodemon --ignore db/*.json --watch '*.ts' --exec node --experimental-specifier-resolution=node --loader ts-node/esm ./src/index.ts",
-		"debug": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/index.ts"
+		"start": "nodemon --watch src --exec npm run debug",
+		"debug": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/index.ts",
+		"test": "jest --watchAll"
 	},
 	"keywords": [],
 	"author": "",
@@ -21,11 +22,18 @@
 		"nanoid": "^4.0.2"
 	},
 	"devDependencies": {
+		"@babel/preset-env": "^7.21.4",
+		"@babel/preset-typescript": "^7.21.4",
 		"@types/cors": "^2.8.13",
 		"@types/express": "^4.17.17",
+		"@types/jest": "^29.5.0",
 		"@types/jsonwebtoken": "^9.0.1",
 		"@types/morgan": "^1.9.4",
+		"@types/supertest": "^2.0.12",
+		"jest": "^29.5.0",
 		"nodemon": "^2.0.22",
+		"supertest": "^6.3.3",
+		"ts-jest": "^29.1.0",
 		"ts-node": "^10.9.1",
 		"typescript": "^5.0.4"
 	}

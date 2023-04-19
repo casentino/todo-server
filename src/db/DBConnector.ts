@@ -1,5 +1,5 @@
 import fs, { promises } from 'fs';
-import { Low, JSONFile } from 'lowdb';
+import { Low, JSONFile, Adapter, Memory } from 'lowdb';
 import path from 'path';
 import Todo from '../model/Todo';
 import User from '../model/User';
@@ -12,10 +12,9 @@ type DB = {
 	todos: Todo[];
 	users: User[];
 };
-
 export let db: Low<DB>;
 
-async function initDB() {
+export async function initDB() {
 	const isExistOrFolderPath = fs.existsSync(folderPath);
 	if (!isExistOrFolderPath) {
 		await fsPromise.mkdir(folderPath);
@@ -24,11 +23,21 @@ async function initDB() {
 	if (!isExistFile) {
 		await fsPromise.writeFile(filePath, JSON.stringify({ todos: [], users: [] }));
 	}
-	return filePath;
 }
 
 export async function connectDatabase() {
-	const filePathName = await initDB();
-	db = new Low<DB>(new JSONFile(filePathName));
+	let adapter: Adapter<DB>;
+	if (process.env.NODE_ENV === 'test') {
+		adapter = new Memory<DB>();
+	} else {
+		await initDB();
+		adapter = new JSONFile<DB>(filePath);
+	}
+
+	db = new Low<DB>(adapter);
 	await db.read();
+	if (!db.data) {
+		db.data = { todos: [], users: [] };
+	}
+	await db.write();
 }
